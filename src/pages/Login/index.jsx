@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Redirect, useHistory } from "react-router-dom";
+import { login } from "../../services/api";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [userAuth, setUserAuth] = useState({ authenticated: false, info: {} });
   const [isVisitor, setIsVisitor] = useState(false);
   const history = useHistory();
 
@@ -11,9 +13,28 @@ export default function Login() {
     return /\S+@\S+\.\S+/.test(email) && password.length > 5;
   }
 
-  function handleSubmit(event) {
+  async function handleSubmit(event) {
     event.preventDefault();
+    try {
+      const response = await login(email, password);
+      if (response.status === 200) {
+        setUserAuth({
+          info: { ...response.data },
+          authenticated: true,
+        });
+      }
+    } catch (error) {
+			//TODO error message
+      console.log(error);
+    }
   }
+
+  useEffect(() => {
+    if (userAuth.authenticated) {
+      localStorage.setItem("user", JSON.stringify({ ...userAuth.info }));
+      history.push("/home", { ...userAuth }); //TODO create redirect funcion
+    }
+  }, [userAuth]);
 
   return isVisitor ? (
     <Redirect to="/home" />
