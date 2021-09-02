@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { useHistory } from "react-router-dom";
+import { createUser } from "../../services/api";
 
 export default function SignUp() {
   const [email, setEmail] = useState("");
@@ -7,12 +9,24 @@ export default function SignUp() {
   const [name, setName] = useState("");
   const [lastName, setLastName] = useState("");
 
+  const history = useHistory();
+
   function validateForm() {
-    return /\S+@\S+\.\S+/.test(email) && password.length > 5 && password === confirmPassword;
+    return (
+      /\S+@\S+\.\S+/.test(email) &&
+      password.length > 5 &&
+      password === confirmPassword
+    );
   }
 
   async function handleSubmit(event) {
     event.preventDefault();
+    try {
+      await createUser({ name, email, lastName, password });
+      history.push("/");
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   return (
