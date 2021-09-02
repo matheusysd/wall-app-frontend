@@ -1,9 +1,17 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { getPosts } from "../../services/api";
 
 export default function Home() {
-  const [posts, setPosts] = useState([
-    { title: "Title", body: "body", author: "author" },
-  ]);
+  const [posts, setPosts] = useState([]);
+
+  useEffect(() => {
+    async function fetchData() {
+      const { data } = await getPosts();
+      setPosts(data);
+    }
+    fetchData();
+  }, []);
+
   return (
     <>
       {posts.map(({ title, body, author }) => (
