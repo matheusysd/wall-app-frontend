@@ -7,7 +7,7 @@ export default function NotFound() {
       <div className="mb-4 lead">
         The page you are looking for was not found.
       </div>
-      <a href="http://localhost:3000/home" className="btn btn-link">
+      <a href="http://localhost:3000/wall" className="btn btn-link">
         Back to Home
       </a>
     </div>
