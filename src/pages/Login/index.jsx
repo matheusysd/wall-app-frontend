@@ -12,6 +12,11 @@ export default function Login() {
   function validateForm() {
     return /\S+@\S+\.\S+/.test(email) && password.length > 5;
   }
+	
+  function clearSession() {
+    localStorage.clear();
+    setIsVisitor(true);
+  }
 
   async function handleSubmit(event) {
     event.preventDefault();
@@ -24,7 +29,7 @@ export default function Login() {
         });
       }
     } catch (error) {
-			//TODO error message
+      //TODO error message
       console.log(error);
     }
   }
@@ -81,7 +86,7 @@ export default function Login() {
             <button
               type="button"
               className="btn btn-secondary"
-              onClick={() => setIsVisitor(true)}
+              onClick={() => clearSession()}
             >
               Visitor
             </button>
