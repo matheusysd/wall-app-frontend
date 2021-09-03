@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
 import { Redirect, useHistory } from "react-router-dom";
 import { login } from "../../services/api";
@@ -7,15 +8,11 @@ export default function Login() {
   const [password, setPassword] = useState("");
   const [userAuth, setUserAuth] = useState({ authenticated: false, info: {} });
   const [isVisitor, setIsVisitor] = useState(false);
+  const [isLogged, setIsLogged] = useState(false);
   const history = useHistory();
 
   function validateForm() {
     return /\S+@\S+\.\S+/.test(email) && password.length > 5;
-  }
-	
-  function clearSession() {
-    localStorage.clear();
-    setIsVisitor(true);
   }
 
   async function handleSubmit(event) {
@@ -35,13 +32,18 @@ export default function Login() {
   }
 
   useEffect(() => {
+    const userToken = localStorage.getItem("user");
+    if (userToken) setIsLogged(true);
+  }, []);
+
+  useEffect(() => {
     if (userAuth.authenticated) {
       localStorage.setItem("user", JSON.stringify({ ...userAuth.info }));
       history.push("/home", { ...userAuth }); //TODO create redirect funcion
     }
   }, [userAuth]);
 
-  return isVisitor ? (
+  return isVisitor || isLogged ? (
     <Redirect to="/home" />
   ) : (
     <div className="container-sm">
@@ -86,7 +88,7 @@ export default function Login() {
             <button
               type="button"
               className="btn btn-secondary"
-              onClick={() => clearSession()}
+              onClick={() => setIsVisitor(true)}
             >
               Visitor
             </button>
