@@ -4,6 +4,7 @@ import { getPosts } from "../../services/api";
 import { useHistory } from "react-router-dom";
 import { createPost } from "../../services/api";
 import Header from "./Header";
+import NewPost from "./NewPost";
 
 export default function Wall() {
   const [posts, setPosts] = useState([]);
@@ -66,34 +67,13 @@ export default function Wall() {
         setIsCreating={setIsCreating}
       />
       {isCreating && (
-        <div className="container p-5 border">
-          <form>
-            <div className="mb-3">
-              <label htmlFor="title" className="form-label">
-                Title
-              </label>
-              <input
-                className="form-control"
-                value={title}
-                type="text"
-                onChange={(event) => setTitle(event.target.value)}
-              />
-            </div>
-            <div className="mb-3">
-              <label htmlFor="content" className="form-label">
-                Content
-              </label>
-              <textarea
-                className="form-control"
-                value={body}
-                onChange={(event) => setBody(event.target.value)}
-              />
-            </div>
-            <button className="btn btn-success" onClick={handleSubmit}>
-              Create
-            </button>
-          </form>
-        </div>
+        <NewPost
+          setTitle={setTitle}
+          setBody={setBody}
+          handleSubmit={handleSubmit}
+          title={title}
+          body={body}
+        />
       )}
       <div className="container">
         <div className="card-columns">
