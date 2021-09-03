@@ -5,7 +5,7 @@ import { useHistory } from "react-router-dom";
 import { createPost } from "../../services/api";
 import Header from "./Header";
 
-export default function Home() {
+export default function Wall() {
   const [posts, setPosts] = useState([]);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [userInfo, setUserInfo] = useState({});

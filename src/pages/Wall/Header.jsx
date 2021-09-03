@@ -17,17 +17,23 @@ export default function Header({ username, authenticated, setIsCreating }) {
       <h4>{username}</h4>
 
       <div>
-        {authenticated && (
-          <button
-            className="btn btn-success"
-            onClick={() => setIsCreating(true)}
-          >
-            New Post
+        {authenticated ? (
+          <div>
+            <button
+              className="btn btn-success"
+              onClick={() => setIsCreating(true)}
+            >
+              New Post
+            </button>
+            <button className="btn btn-danger" onClick={() => logout()}>
+              Logout
+            </button>
+          </div>
+        ) : (
+          <button className="btn btn-success" onClick={() => history.push("/")}>
+            Sign in
           </button>
         )}
-        <button className="btn btn-danger" onClick={() => logout()}>
-          Logout
-        </button>
       </div>
     </nav>
   );
