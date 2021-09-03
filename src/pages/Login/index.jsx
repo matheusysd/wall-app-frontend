@@ -39,12 +39,12 @@ export default function Login() {
   useEffect(() => {
     if (userAuth.authenticated) {
       localStorage.setItem("user", JSON.stringify({ ...userAuth.info }));
-      history.push("/home", { ...userAuth }); //TODO create redirect funcion
+      history.push("/wall", { ...userAuth }); //TODO create redirect funcion
     }
   }, [userAuth]);
 
   return isVisitor || isLogged ? (
-    <Redirect to="/home" />
+    <Redirect to="/wall" />
   ) : (
     <div className="container-sm">
       <div className="formContent">
