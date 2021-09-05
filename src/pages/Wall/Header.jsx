@@ -1,5 +1,6 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
+import PropTypes from "prop-types";
 
 export default function Header({ username, authenticated, setIsCreating }) {
   const history = useHistory();
@@ -38,3 +39,9 @@ export default function Header({ username, authenticated, setIsCreating }) {
     </nav>
   );
 }
+
+Header.propTypes = {
+  username: PropTypes.string.isRequired,
+  authenticated: PropTypes.bool.isRequired,
+  setIsCreating: PropTypes.bool.isRequired,
+};
