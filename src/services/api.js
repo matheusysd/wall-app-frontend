@@ -11,7 +11,7 @@ export const login = async (email, password) => {
     return { data, status };
   } catch (error) {
     return {
-      data: error.response.data,
+      message: error.response.data.message,
       status: error.response.status,
     };
   }
@@ -35,7 +35,6 @@ export const getPosts = async () => {
     const { data, status } = await api.get("/post");
     return { data, status };
   } catch (error) {
-    console.log(error);
     return {
       data: error.response.data,
       status: error.response.status,
