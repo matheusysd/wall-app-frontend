@@ -83,17 +83,24 @@ export default function SignUp() {
           </div>
         </div>
         <hr />
-        <div className="container d-flex justify-content-around">
-          <button
-            type="button"
-            className="btn btn-success"
-            onClick={handleSubmit}
-            disabled={!validateForm()}
-          >
-            Sign up
-          </button>
-        </div>
       </form>
+      <div className="container d-flex justify-content-around">
+        <button
+          type="button"
+          className="btn btn-success"
+          onClick={handleSubmit}
+          disabled={!validateForm()}
+        >
+          Sign up
+        </button>
+        <button
+          type="button"
+          className="btn btn-primary"
+          onClick={() => history.push("/")}
+        >
+          Sign in
+        </button>
+      </div>
     </div>
   );
 }
