@@ -1,4 +1,5 @@
 import { Switch, Route } from "react-router-dom";
+import React from "react";
 
 import Wall from "./pages/Wall";
 import Login from "./pages/Login";
