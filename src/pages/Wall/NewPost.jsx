@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 export default function NewPost({
   setTitle,
@@ -35,6 +36,7 @@ export default function NewPost({
           className="btn btn-success"
           type="submit"
           onClick={handleSubmit}
+          disabled={!title || !body}
         >
           Create
         </button>
@@ -42,3 +44,11 @@ export default function NewPost({
     </div>
   );
 }
+
+NewPost.propTypes = {
+  setTitle: PropTypes.func.isRequired,
+  setBody: PropTypes.func.isRequired,
+  handleSubmit: PropTypes.func.isRequired,
+  title: PropTypes.string.isRequired,
+  body: PropTypes.string.isRequired,
+};
