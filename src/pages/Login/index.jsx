@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
 import { Redirect, useHistory } from "react-router-dom";
 import { login } from "../../services/api";
@@ -9,6 +8,7 @@ export default function Login() {
   const [userAuth, setUserAuth] = useState({ authenticated: false, info: {} });
   const [isVisitor, setIsVisitor] = useState(false);
   const [isLogged, setIsLogged] = useState(false);
+  const [error, setError] = useState("");
   const history = useHistory();
 
   function validateForm() {
@@ -17,20 +17,17 @@ export default function Login() {
 
   async function handleSubmit(event) {
     event.preventDefault();
-    try {
-      const response = await login(email, password);
-      if (response.status === 200) {
-        setUserAuth({
-          info: { ...response.data },
-          authenticated: true,
-        });
-      }
-    } catch (error) {
-      //TODO error message
-      console.log(error);
-    }
-  }
 
+    const response = await login(email, password);
+    if (response.status === 200) {
+      setUserAuth({
+        info: { ...response.data },
+        authenticated: true,
+      });
+    }
+    setError(response);
+  }
+  
   useEffect(() => {
     const userToken = localStorage.getItem("user");
     if (userToken) setIsLogged(true);
@@ -68,6 +65,11 @@ export default function Login() {
               onChange={(event) => setPassword(event.target.value)}
             />
           </div>
+          {error && (
+            <div className="alert-md alert-danger" role="alert">
+              {error.message}
+            </div>
+          )}
           <hr />
           <div className="container d-flex justify-content-around">
             <button
