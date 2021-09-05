@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
 import { getPosts } from "../../services/api";
 import { useHistory } from "react-router-dom";
