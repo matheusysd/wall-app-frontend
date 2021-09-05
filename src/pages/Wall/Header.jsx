@@ -11,12 +11,12 @@ export default function Header({ username, authenticated, setIsCreating }) {
   }
 
   return (
-    <nav className="navbar navbar-dark bg-primary">
+    <nav className="navbar navbar-dark bg-dark">
       <a className="navbar-brand" href="/">
         Home
       </a>
-      <h4>{username}</h4>
-
+      <h4 className="text-white">{username}</h4>
+  
       <div>
         {authenticated ? (
           <div>
@@ -26,12 +26,12 @@ export default function Header({ username, authenticated, setIsCreating }) {
             >
               New Post
             </button>
-            <button className="btn btn-danger" onClick={() => logout()}>
+            <button className="btn btn-danger m-2" onClick={() => logout()}>
               Logout
             </button>
           </div>
         ) : (
-          <button className="btn btn-success" onClick={() => history.push("/")}>
+          <button className="btn btn-success m-2" onClick={() => history.push("/")}>
             Sign in
           </button>
         )}
@@ -43,5 +43,5 @@ export default function Header({ username, authenticated, setIsCreating }) {
 Header.propTypes = {
   username: PropTypes.string.isRequired,
   authenticated: PropTypes.bool.isRequired,
-  setIsCreating: PropTypes.bool.isRequired,
+  setIsCreating: PropTypes.func.isRequired,
 };

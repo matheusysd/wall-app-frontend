@@ -12,6 +12,7 @@ export default function Wall() {
   const [isCreating, setIsCreating] = useState(false);
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
+  const [error, setError] = useState("");
 
   const history = useHistory();
   const { state } = history.location;
@@ -45,6 +46,9 @@ export default function Wall() {
       setBody("");
       setIsCreating(false);
       await fetchData();
+    } else {
+      setError("Session expired, sign in and try again!");
+      setIsCreating(false);
     }
   }
 
@@ -65,14 +69,22 @@ export default function Wall() {
         authenticated={isAuthenticated}
         setIsCreating={setIsCreating}
       />
+      {error && (
+        <div className="alert-md alert-danger" role="alert">
+          {error}
+        </div>
+      )}
       {isCreating && (
-        <NewPost
-          setTitle={setTitle}
-          setBody={setBody}
-          handleSubmit={handleSubmit}
-          title={title}
-          body={body}
-        />
+        <div>
+          <NewPost
+            setTitle={setTitle}
+            setBody={setBody}
+            handleSubmit={handleSubmit}
+            title={title}
+            body={body}
+            setIsCreating={setIsCreating}
+          />
+        </div>
       )}
       <div className="container">
         <div className="card-columns">
