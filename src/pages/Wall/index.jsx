@@ -94,9 +94,9 @@ export default function Wall() {
                 <div className="card-body">
                   <h5 className="card-title">{title}</h5>
                   <p className="card-text">{body}</p>
-                  <footer className="blockquote-footer">
+                  <span className="blockquote-footer">
                     <small className="text-muted">{author}</small>
-                  </footer>
+                  </span>
                 </div>
               </div>
             ))}
