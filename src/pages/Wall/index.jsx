@@ -36,8 +36,9 @@ export default function Wall() {
 
   async function handleSubmit(event) {
     event.preventDefault();
+    const { name, lastName, userId } = userInfo;
     const response = await createPost(
-      { title, body, author: `${userInfo.name} ${userInfo.lastName}` },
+      { title, body, author: `${name} ${lastName}`, authorId: userId },
       userInfo.token
     );
 
