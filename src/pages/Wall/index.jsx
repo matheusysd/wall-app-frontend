@@ -54,7 +54,8 @@ export default function Wall() {
   }
 
   async function fetchData() {
-    const { data } = await getPosts();
+    const { data, status } = await getPosts();
+    if(status === 400) return setError(data.message)
     setPosts(data);
   }
 
