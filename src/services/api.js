@@ -36,8 +36,8 @@ export const getPosts = async () => {
     return { data, status };
   } catch (error) {
     return {
-      data: error.response.data,
-      status: error.response.status,
+      data: error,
+      status: 400,
     };
   }
 };
