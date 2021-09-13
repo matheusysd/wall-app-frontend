@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { createUser } from "../../services/api";
+import Loading from "../../components/Loading";
 
 export default function SignUp() {
   const [email, setEmail] = useState("");
@@ -8,6 +9,7 @@ export default function SignUp() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [name, setName] = useState("");
   const [lastName, setLastName] = useState("");
+  const [isLoading, setLoading] = useState(false);
 
   const history = useHistory();
 
@@ -21,15 +23,19 @@ export default function SignUp() {
 
   async function handleSubmit(event) {
     event.preventDefault();
+    setLoading(true);
     try {
       await createUser({ name, email, lastName, password });
+      setLoading(false);
       history.push("/");
     } catch (error) {
       console.log(error);
     }
   }
 
-  return (
+  return isLoading ? (
+    <Loading />
+  ) : (
     <div className="container-sm">
       <h1>Please sign up</h1>
       <form>
