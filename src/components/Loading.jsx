@@ -10,7 +10,6 @@ export default function Loading() {
         height={"200px"}
         width={"200px"}
       />
-      <p>Loading...</p>
     </div>
   );
 }

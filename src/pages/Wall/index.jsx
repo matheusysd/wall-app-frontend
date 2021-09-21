@@ -4,15 +4,20 @@ import { useHistory } from "react-router-dom";
 import { createPost } from "../../services/api";
 import Header from "./Header";
 import NewPost from "./NewPost";
+import Loading from "../../components/Loading";
 
 export default function Wall() {
   const [posts, setPosts] = useState([]);
+  const [filteredPosts, setFilteredPosts] = useState(posts);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [userInfo, setUserInfo] = useState({});
   const [isCreating, setIsCreating] = useState(false);
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
   const [error, setError] = useState("");
+  const [isFiltering, setIsFiltering] = useState(false);
+  const [filter, setFilter] = useState("");
+  const [isLoading, setLoading] = useState(false);
 
   const history = useHistory();
   const { state } = history.location;
@@ -55,22 +60,60 @@ export default function Wall() {
 
   async function fetchData() {
     const { data, status } = await getPosts();
-    if(status === 400) return setError(data.message)
+    if (status === 400) return setError(data.message);
     setPosts(data);
+    setLoading(false);
   }
 
   useEffect(() => {
+    setLoading(true);
     setSession();
     fetchData();
   }, []);
 
-  return (
+  useEffect(() => {
+    setFilteredPosts(posts);
+  }, [posts]);
+
+  useEffect(() => {
+    setFilteredPosts(() =>
+      posts.filter(
+        ({ body, title }) =>
+          body.toLowerCase().includes(filter.toLowerCase()) ||
+          title.toLowerCase().includes(filter.toLowerCase())
+      )
+    );
+  }, [filter]);
+
+  return isLoading ? (
+    <Loading />
+  ) : (
     <>
       <Header
-        username={userInfo.name || "Anonymous"}
+        username={userInfo.name || "Visitor"}
         authenticated={isAuthenticated}
         setIsCreating={setIsCreating}
+        setIsFiltering={setIsFiltering}
+        isFiltering={isFiltering}
       />
+      {isFiltering && (
+        <div className="container p-2 border">
+          <div className="input-group">
+            <input
+              type="text"
+              className="form-control shadow-none"
+              placeholder="Search posts"
+              value={filter}
+              onChange={({ target: { value } }) => setFilter(value)}
+            />
+            <div className="input-group-append">
+              <button className="btn btn-secondary" type="button">
+                <i className="bi bi-search" />
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
       {error && (
         <div className="alert-md alert-danger" role="alert">
           {error}
@@ -91,7 +134,7 @@ export default function Wall() {
       <div className="container">
         <div className="card-columns">
           <div className="row">
-            {posts.map(({ title, body, author, id }) => (
+            {filteredPosts.map(({ title, body, author, id }) => (
               <div className="card text-center w-50" key={`post-${id}`}>
                 <div className="card-body">
                   <h5 className="card-title">{title}</h5>
