@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Redirect, useHistory } from "react-router-dom";
+import Loading from "../../components/Loading";
 import { login } from "../../services/api";
 
 export default function Login() {
@@ -9,21 +10,22 @@ export default function Login() {
   const [isVisitor, setIsVisitor] = useState(false);
   const [isLogged, setIsLogged] = useState(false);
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
   const history = useHistory();
 
   function validateForm() {
     return /\S+@\S+\.\S+/.test(email) && password.length > 5;
   }
-
   async function handleSubmit(event) {
     event.preventDefault();
-
+    setLoading(true);
     const response = await login(email, password);
     if (response.status === 200) {
       setUserAuth({
         info: { ...response.data },
         authenticated: true,
       });
+      setLoading(false);
     }
     setError(response);
   }
@@ -40,7 +42,9 @@ export default function Login() {
     }
   }, [userAuth]);
 
-  return isVisitor || isLogged ? (
+  return loading ? (
+    <Loading />
+  ) : isVisitor || isLogged ? (
     <Redirect to="/wall" />
   ) : (
     <div className="container-sm">
